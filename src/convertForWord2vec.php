@@ -20,7 +20,7 @@ use Fukuball\Jieba\Finalseg;
 // Initialize Jieba
 Jieba::init([
     'mode' => 'default',
-    'dict' => 'big' // using built-in triditional chinese dict
+    'dict' => 'big' // using built-in triditional-chinese dict
 ]);
 Finalseg::init();
 
@@ -34,8 +34,7 @@ $outputPath = "{$root}/output/word2vec-moedict.txt";
 $handle = fopen($outputPath, 'w+');
 
 $inputPath = "{$root}/clone/moedict-data/dict-cat.json";
-$inputData = file_get_contents($inputPath);
-$inputData = json_decode($inputData, true);
+$inputData = json_decode(file_get_contents($inputPath), true);
 
 foreach ($inputData as $data) {
     foreach ($data['entries'] as $text) {
@@ -62,16 +61,24 @@ foreach ($inputData as $data) {
 
     $text[] = $data['title'];
 
-    if (isset($data['heteronyms']['definitions'])) {
-        $definitions = $data['heteronyms']['definitions'];
+    if (isset($data['heteronyms'])) {
+        $heteronyms = $data['heteronyms'];
 
-        foreach ($definitions as $definition) {
-            if (isset($definition['def'])) {
-                $text[] = $definition['def'];
+        foreach ($heteronyms as $heteronym) {
+            if (!isset($heteronym['definitions'])) {
+                continue;
             }
 
-            if (isset($definition['quote'])) {
-                $text[] = $definition['quote'];
+            $definitions = $heteronym['definitions'];
+
+            foreach ($definitions as $definition) {
+                if (isset($definition['def'])) {
+                    $text[] = $definition['def'];
+                }
+
+                if (isset($definition['quote'])) {
+                    $text[] = $definition['quote'];
+                }
             }
         }
     }
