@@ -34,15 +34,15 @@ $outputPath = "{$root}/output/word2vec-moedict.txt";
 $handle = fopen($outputPath, 'w+');
 
 $inputPath = "{$root}/clone/moedict-data/dict-cat.json";
-$json = file_get_contents($inputPath);
-$json = json_decode($json, true);
+$inputData = file_get_contents($inputPath);
+$inputData = json_decode($inputData, true);
 
 foreach ($inputData as $data) {
     foreach ($data['entries'] as $text) {
-        $line = Jieba::cut($text, true);
-        $line = implode(' ', $line);
+        $text = Jieba::cut($text, true);
+        $text = implode(' ', $text);
 
-        fwrite($handle, $line);
+        fwrite($handle, "{$text} ");
     }
 }
 
@@ -50,17 +50,37 @@ $inputPath = "{$root}/clone/moedict-data/dict-revised.json";
 $inputData = json_decode(file_get_contents($inputPath), true);
 
 foreach ($inputData as $data) {
-    $text = $data['title'];
+    $text = [];
 
-    if (preg_match('/\{\[(.+)\]\}/', $text, $match)) {
-        $text = utf8(hexdec($match[1]));
+    if (preg_match('/\{\[(.+)\]\}/', $data['title'], $match)) {
+        $data['title'] = utf8(hexdec($match[1]));
     }
 
-    if (preg_match('/(.+)（.+）/', $text, $match)) {
-        $text = $match[1];
+    if (preg_match('/(.+)（.+）/', $data['title'], $match)) {
+        $data['title'] = $match[1];
     }
 
-    fwrite($handle, "{$text} 50 n\n");
+    $text[] = $data['title'];
+
+    if (isset($data['heteronyms']['definitions'])) {
+        $definitions = $data['heteronyms']['definitions'];
+
+        foreach ($definitions as $definition) {
+            if (isset($definition['def'])) {
+                $text[] = $definition['def'];
+            }
+
+            if (isset($definition['quote'])) {
+                $text[] = $definition['quote'];
+            }
+        }
+    }
+
+    $text = implode(' ', $text);
+    $text = Jieba::cut($text, true);
+    $text = implode(' ', $text);
+
+    fwrite($handle, "{$text} ");
 }
 
 fclose($handle);

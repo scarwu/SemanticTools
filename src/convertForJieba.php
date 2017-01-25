@@ -14,7 +14,7 @@ $root = realpath(dirname(__FILE__) . '/..');
 
 @mkdir("{$root}/output");
 
-$outputPath = "{$root}/output/moedict-jieba.txt";
+$outputPath = "{$root}/output/jieba-moedict.txt";
 $handle = fopen($outputPath, 'w+');
 
 $inputPath = "{$root}/clone/moedict-data/dict-cat.json";
