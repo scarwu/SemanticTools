@@ -27,3 +27,6 @@ wget http://www.speedy7.com/cn/stguru/download/Redmansions/AnasoftB/Red_Mansions
 
 unzip Red_Mansions_Anasoft_A_CHT_Big5_txt.zip
 unzip Red_Mansions_Anasoft_B_CHT_Big5_txt.zip
+
+# composer
+composer install
