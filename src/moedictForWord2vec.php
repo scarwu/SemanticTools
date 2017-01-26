@@ -35,6 +35,8 @@ include "{$root}/vendor/autoload.php";
 use Fukuball\Jieba\Jieba;
 use Fukuball\Jieba\Finalseg;
 
+echo "Init Jieba\n";
+
 // Initialize Jieba
 Jieba::init([
     'mode' => 'default',
@@ -46,15 +48,25 @@ Finalseg::init();
 // src: https://github.com/g0v/moedict-data
 Jieba::loadUserDict("{$root}/output/jieba-moedict.txt");
 
+echo "Create output\n";
+
 @mkdir("{$root}/output");
 
 $outputPath = "{$root}/output/word2vec-moedict.txt";
 $handle = fopen($outputPath, 'w+');
 
+echo "Load input\n";
+
 $inputPath = "{$root}/clone/moedict-data/dict-revised.json";
 $inputData = json_decode(file_get_contents($inputPath), true);
 
-foreach ($inputData as $data) {
+$total = count($inputData);
+
+foreach ($inputData as $index => $data) {
+    $index = $index + 1;
+
+    echo "{$index} / {$total}\r";
+
     $text = [];
 
     if (preg_match('/\{\[(.+)\]\}/', $data['title'], $match)) {
@@ -95,5 +107,7 @@ foreach ($inputData as $data) {
 
     fwrite($handle, "{$text} \n");
 }
+
+echo "\n";
 
 fclose($handle);
