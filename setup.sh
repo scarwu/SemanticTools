@@ -19,3 +19,11 @@ make
 cd $ROOT/clone
 git clone git@github.com:g0v/moedict-data.git
 git clone git@github.com:g0v/moedict-epub.git
+
+# redmansions
+cd $ROOT/clone
+wget http://www.speedy7.com/cn/stguru/download/Redmansions/AnasoftA/Red_Mansions_Anasoft_A_CHT_Big5_txt.zip
+wget http://www.speedy7.com/cn/stguru/download/Redmansions/AnasoftB/Red_Mansions_Anasoft_B_CHT_Big5_txt.zip
+
+unzip Red_Mansions_Anasoft_A_CHT_Big5_txt.zip
+unzip Red_Mansions_Anasoft_B_CHT_Big5_txt.zip

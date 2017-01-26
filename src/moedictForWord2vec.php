@@ -51,18 +51,6 @@ Jieba::loadUserDict("{$root}/output/jieba-moedict.txt");
 $outputPath = "{$root}/output/word2vec-moedict.txt";
 $handle = fopen($outputPath, 'w+');
 
-$inputPath = "{$root}/clone/moedict-data/dict-cat.json";
-$inputData = json_decode(file_get_contents($inputPath), true);
-
-foreach ($inputData as $data) {
-    foreach ($data['entries'] as $text) {
-        $text = Jieba::cut($text, true);
-        $text = implode(' ', $text);
-
-        fwrite($handle, "{$text} ");
-    }
-}
-
 $inputPath = "{$root}/clone/moedict-data/dict-revised.json";
 $inputData = json_decode(file_get_contents($inputPath), true);
 
@@ -105,7 +93,7 @@ foreach ($inputData as $data) {
     $text = Jieba::cut($text, true);
     $text = implode(' ', $text);
 
-    fwrite($handle, "{$text} ");
+    fwrite($handle, "{$text} \n");
 }
 
 fclose($handle);
