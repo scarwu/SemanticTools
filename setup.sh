@@ -17,8 +17,8 @@ make
 
 # moedict
 cd $ROOT/clone
-git clone git@github.com:g0v/moedict-data.git
-git clone git@github.com:g0v/moedict-epub.git
+git clone https://github.com/g0v/moedict-data.git
+git clone https://github.com/g0v/moedict-epub.git
 
 # redmansions
 cd $ROOT/clone
