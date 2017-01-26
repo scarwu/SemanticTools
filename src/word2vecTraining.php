@@ -3,8 +3,26 @@
 
 $root = realpath(dirname(__FILE__) . '/..');
 
+$outputPath = "{$root}/output/word2vec-all.txt";
+$outputHandle = fopen($outputPath, 'w+');
+
+$inputPathList = [
+    "{$root}/output/word2vec-moedict.txt",
+    "{$root}/output/word2vec-redmansions.txt"
+];
+
+foreach ($inputPathList as $inputPath) {
+    if (!file_exists($inputPath)) {
+        continue;
+    }
+
+    fwrite($outputHandle, file_get_contents($inputPath));
+}
+
+fclose($outputHandle);
+
 $word2vec = "{$root}/clone/word2vec/trunk/word2vec";
-$train = "{$root}/output/word2vec-moedict.txt";
+$train = "{$root}/output/word2vec-all.txt";
 $output = "{$root}/output/vectors.bin";
 
 $command = "{$word2vec} -train {$train} -output {$output} "
