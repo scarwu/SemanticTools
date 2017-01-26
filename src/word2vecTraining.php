@@ -9,6 +9,7 @@ $output = "{$root}/output/vectors.bin";
 
 $command = "{$word2vec} -train {$train} -output {$output} "
     . '-cbow 0 -size 200 -window 10 -negative 5 -hs 0 '
-    . '-sample 1e-4 -threads 24 -binary 1 -iter 20 -min-count 1';
+    . '-sample 1e-4 -threads 24 -binary 1 -iter 20 '
+    . '-min-count 1 < `tty` > `tty`';
 
 system($command);
